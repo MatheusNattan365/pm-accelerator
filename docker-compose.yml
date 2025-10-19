@@ -20,6 +20,7 @@ services:
       - MONGODB_DBNAME=${MONGODB_DBNAME:-weather_db}
       - ALLOWED_ORIGINS=http://localhost:3000,http://frontend:3000
       - ZIPCODEBASE_API_KEY=${ZIPCODEBASE_API_KEY}
+      - YOUTUBE_API_URL=http://yt-scraper:8000
     networks:
       - weather-network
     restart: unless-stopped

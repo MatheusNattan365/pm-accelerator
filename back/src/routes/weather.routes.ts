@@ -10,7 +10,7 @@ import { normalizeDateString } from '../utils/dateUtils';
 const router = Router();
 const geocodingService = new GeocodingService();
 const weatherService = new WeatherService();
-const youtubeService = new YouTubeService();
+const youtubeService = new YouTubeService(process.env.YOUTUBE_API_URL || 'http://yt-scraper:8000');
 
 /**
  * POST /api/weather/search
