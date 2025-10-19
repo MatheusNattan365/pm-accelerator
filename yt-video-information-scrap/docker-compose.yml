@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  yt-scraper:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - CORS_ALLOW_ORIGINS=*
+    restart: unless-stopped
+    container_name: yt-playwright-api

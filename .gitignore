@@ -1,0 +1,50 @@
+# Node modules
+node_modules/
+back/node_modules/
+front/node_modules/
+yt-video-information-scrap/node_modules/
+
+# Environment variable files
+back/src/.env
+front/src.env
+.env
+.env.*
+docker.env
+docker.env.*
+
+# Logs
+*.log
+logs/
+back/logs/
+front/logs/
+yt-video-information-scrap/logs/
+
+# Build output
+back/dist/
+front/dist/
+yt-video-information-scrap/dist/
+
+# Dependency directories
+back/package-lock.json
+front/package-lock.json
+yt-video-information-scrap/package-lock.json
+
+# IDE and editor folders
+.vscode/
+.idea/
+*.swp
+
+# MacOS and system files
+.DS_Store
+Thumbs.db
+
+# Python cache
+yt-video-information-scrap/__pycache__/
+# Python virtual environment
+yt-video-information-scrap/venv/
+
+# Misc
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

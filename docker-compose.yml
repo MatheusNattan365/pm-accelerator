@@ -1,0 +1,73 @@
+services:
+  # Backend service
+  backend:
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+    container_name: weather-backend
+    ports:
+      - "4000:4000"
+    volumes:
+      # Mount source code for hot reloading
+      - ./back/src:/app/src
+      - ./back/package.json:/app/package.json
+      - ./back/package-lock.json:/app/package-lock.json
+      - ./back/tsconfig.json:/app/tsconfig.json
+    environment:
+      - NODE_ENV=development
+      - PORT=4000
+      - MONGODB_URI=${MONGODB_URI}
+      - MONGODB_DBNAME=${MONGODB_DBNAME:-weather_db}
+      - ALLOWED_ORIGINS=http://localhost:3000,http://frontend:3000
+      - ZIPCODEBASE_API_KEY=${ZIPCODEBASE_API_KEY}
+    networks:
+      - weather-network
+    restart: unless-stopped
+
+  # Frontend service
+  frontend:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    container_name: weather-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount source code for hot reloading
+      - ./front/src:/app/src
+      - ./front/index.html:/app/index.html
+      - ./front/package.json:/app/package.json
+      - ./front/package-lock.json:/app/package-lock.json
+      - ./front/tsconfig.json:/app/tsconfig.json
+      - ./front/tsconfig.node.json:/app/tsconfig.node.json
+      - ./front/vite.config.ts:/app/vite.config.ts
+    environment:
+      - NODE_ENV=development
+      - VITE_MAPTILER_API_KEY=${VITE_MAPTILER_API_KEY}
+      - VITE_API_URL=${VITE_API_URL}
+    networks:
+      - weather-network
+    restart: unless-stopped
+
+  # YouTube Video Information Scraper service
+  yt-scraper:
+    build:
+      context: ./yt-video-information-scrap
+      dockerfile: Dockerfile
+    container_name: yt-playwright-api
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount source code for hot reloading
+      - ./yt-video-information-scrap/main.py:/app/main.py
+      - ./yt-video-information-scrap/requirements.txt:/app/requirements.txt
+    environment:
+      - CORS_ALLOW_ORIGINS=${CORS_ALLOW_ORIGINS:-*}
+      - PORT=8000
+    networks:
+      - weather-network
+    restart: unless-stopped
+
+networks:
+  weather-network:
+    driver: bridge
