@@ -20,9 +20,10 @@ export class PDFService {
     let browser;
     
     try {
-      // Launch browser with more robust configuration
+      // Launch browser with more robust configuration for Docker
       browser = await puppeteer.launch({
         headless: true,
+        executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
         args: [
           '--no-sandbox',
           '--disable-setuid-sandbox',
@@ -30,7 +31,9 @@ export class PDFService {
           '--disable-accelerated-2d-canvas',
           '--no-first-run',
           '--no-zygote',
-          '--disable-gpu'
+          '--disable-gpu',
+          '--disable-web-security',
+          '--disable-features=VizDisplayCompositor'
         ],
         timeout: 30000
       });
